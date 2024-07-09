@@ -56,6 +56,7 @@ export class KanbanDB {
       try {
           const client = await KanbanDB.getClient();
           const data = await client.query(`SELECT id FROM users WHERE username = $1`, [username]);
+          if (data.rows.length === 0) return { message: 'No se encontró una id para el usuario especificado', code:404} as ErrorDB
           return { id: data.rows[0][0] };
 
       } catch(e) { 
@@ -74,6 +75,8 @@ export class KanbanDB {
               const cards = await client.query(`SELECT id, title, content FROM cards WHERE section_id = $1`, [section[1]]);
               userdata.sections.push({ id: section[1], title: section[0], user_id: user_id, cards: cards.rows.map(card => ({ id: card[0], title: card[1], content: card[2], section_id: section[1] })) });
             }
+
+            if (sections_id.rows.length === 0) return { message: 'No se encontró seccion para la id especificada'} as ErrorDB
             return userdata
         } catch(e) { 
           const error: ErrorDB = { message: 'Error en la base de datos: ' + e.message, code:500  };
@@ -86,6 +89,7 @@ export class KanbanDB {
       try {
           const client = await KanbanDB.getClient();
           const data = await client.query(`SELECT user_id FROM section WHERE id = $1`, [section_id]);
+          if (data.rows.length === 0) return { message: 'No se encontró seccion para la id especificada', code:404} as ErrorDB
           return { id: data.rows[0][0] };
 
       } catch(e) { 
@@ -98,6 +102,7 @@ export class KanbanDB {
       try {
           const client = await KanbanDB.getClient();
           const data = await client.query(`SELECT section_id FROM cards WHERE id = $1`, [card_id]);
+          if (data.rows.length === 0) return { message: 'No se encontró sección para la ID especificada', code:404} as ErrorDB
           return { id: data.rows[0][0] };
 
       } catch(e) { 
@@ -141,6 +146,7 @@ export class KanbanDB {
       try {
         const client = await KanbanDB.getClient();
         const data = await client.query(`DELETE FROM section WHERE id = $1 RETURNING *`, [section_id]);
+        if (data.rows.length === 0) return { message: 'No se encontró la seccion', code:404} as ErrorDB
         const deletedCards = await client.query(`DELETE FROM cards WHERE section_id = $1 RETURNING *`, [section_id]);
         const cards = deletedCards.rows.map(card => ({ id: card[0], title: card[1], content: card[2], section_id: card[3] }));
         return { id: data.rows[0][0], title: data.rows[0][1], user_id: data.rows[0][2], cards: cards };
@@ -153,9 +159,11 @@ export class KanbanDB {
       try {
         const client = await KanbanDB.getClient();
         const data = await client.query(`DELETE FROM cards WHERE id = $1 RETURNING *`, [card_id]);
+        if (data.rows.length === 0) return { message: 'No se encontró la carta', code:404} as ErrorDB
         return { id: data.rows[0][0], title: data.rows[0][1], content: data.rows[0][2], section_id: data.rows[0][3] };
       } catch(e) { console.error(e); throw e; }
     }
+
     static async updateUser(user_id: string, { username, email, password }: { username?: string, email?: string, password?: string }): Promise<User | ErrorDB> {
       try {
         const client = await KanbanDB.getClient();
@@ -179,12 +187,25 @@ export class KanbanDB {
         await client.query(query, [...values, user_id]);
 
         const data = await client.query('SELECT * FROM users WHERE id = $1', [user_id]);
+        if (data.rows.length === 0) return { message: 'No se encontró el usuario especificado', code:404} as ErrorDB
         return { id: data.rows[0][0], username: data.rows[0][1], passwd: data.rows[0][2], email: data.rows[0][3] };
       } catch (e) {
         const error: ErrorDB = { message: 'Error en la base de datos: ' + e.message, code:500  };
         return error;
       }
     }
+
+    static async getUserInfo(user_id: string): Promise<UserInfo | ErrorDB> {
+      try {
+        const client = await KanbanDB.getClient(); 
+        const data = await client.query(`SELECT username, email FROM users WHERE username = $1`, [user_id]);
+        if (data.rows.length === 0) return { username: ''}
+        return { username: data.rows[0][0] }; 
+
+    } catch(e) { 
+        const error: ErrorDB = { message: 'Error en la base de datos: ' + e.message, code:500 };
+        return error
+      }
 }
 
 

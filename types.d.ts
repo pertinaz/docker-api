@@ -9,6 +9,7 @@ type Username = Pick<User, 'username'>
 type Password = Pick<User, 'passwd'>
 type UserID = Pick<User, 'id'>
 type UserLogin = Pick<User, 'username' | 'passwd'>
+type UserInfo = Pick<User, 'username' | 'email'>
 
 interface ErrorDB {
   message: string;

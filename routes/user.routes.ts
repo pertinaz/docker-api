@@ -20,7 +20,8 @@ const routes = [
   { method: 'delete', path: '/section', handler: UserController.deleteSection },
   { method: 'post', path: '/card', handler: UserController.createCard },
   { method: 'delete', path: '/card', handler: UserController.deleteCard },
-  { method: 'patch', path: '/account', handler: UserController.updateAccount }
+  { method: 'patch', path: '/account', handler: UserController.updateAccount },
+  { method: 'get', path: '/account', handler: UserController.getUserInfo }
 ];
 
 routes.forEach(route => {
