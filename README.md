@@ -1,21 +1,37 @@
-# Nombre del Proyecto
+# Kanban Typescript API
 
-Una breve descripción del proyecto, indicando su propósito y características principales.
-
-## Tabla de Contenidos
-
-- [Instalación](#instalación)
-- [Uso](#uso)
-- [Contribución](#contribución)
-- [Licencia](#licencia)
+Este proyecto es una API Rest en Typescript hecha en express con PostgreSQL como base de datos.
 
 ## Instalación
 
-Instrucciones detalladas sobre cómo instalar el proyecto. Por ejemplo:
+Para instalar localmente seguir estos pasos:
 
+1- Clonar repositorio
 ```bash
-git clone https://github.com/tu_usuario/nombre_del_proyecto.git
-cd nombre_del_proyecto
-npm install
-
+git clone https://github.com/Gurottesque/Elite-Kanban-Typescript.git
+cd Elite-Kanban-Typescript
 ```
+
+2- Instalar dependencias
+```bash
+npm install
+```
+
+3- Configurar base de datos en PostgreSQL y alterar las variables de entorno (mirar .env.example)
+
+4- Puedes usar tsx para ejecutar directamente el typescript
+```bash
+npm install tsx
+tsx main.ts
+```
+
+o utilizar el script 'npm run prod' para compilarlo y luego usar node
+```bash
+npm run prod
+node main.js
+```
+
+
+## Usar la API Remotamente
+
+Tambien puedes acceder a la API mediante el siguiente link
