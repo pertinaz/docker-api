@@ -30,11 +30,11 @@ const loginSchema = z.object({
 
 )
 
-export function validateRegister(body){
+export function validateRegister(body: any){
    return registerSchema.safeParse(body);
 }
 
-export function validateLogin(body){
+export function validateLogin(body: any){
     return loginSchema.safeParse(body);
  }
  

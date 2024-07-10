@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
-import { validateRegister, validateLogin } from '../schemas/schemas';
+import { validateRegister, validateLogin } from '../schemas/schemas.js';
 import { Request, Response } from 'express';
-import { KanbanDB } from '../model/db-kanban';
+import { KanbanDB } from '../model/db-kanban.js';
 
 
 dotenv.config();
@@ -26,6 +26,7 @@ export class AuthController {
         const username = await KanbanDB.searchUser(user.username)
 
         if ('message' in username) { return res.status(username.code).send(username.message)}
+        if (username.username == '') { return res.status(401).send('Incorrect username or password')}
 
         const pass = await KanbanDB.getPassword(username.username)
 
@@ -59,7 +60,7 @@ export class AuthController {
         const username = await KanbanDB.searchUser(user.username)
         
         if ('message' in username) { return res.status(username.code).send(username.message)}
-        if (username.username !== '') { return res.status(400).send('Username already exists')}
+        if (username.username !== '') { return res.status(401).send('Username already exists')}
     
         const hashedPasswd = await bcrypt.hash(user.passwd, 7)
         const created_user = await KanbanDB.addUser(user.username, hashedPasswd, user.email)

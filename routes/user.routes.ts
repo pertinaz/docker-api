@@ -1,5 +1,5 @@
 import { Router, Request } from 'express';
-import { UserController } from '../controller/user.controller';
+import { UserController } from '../controller/user.controller.js';
 
 export const userRouter = Router();
 
@@ -14,16 +14,10 @@ userRouter.use((req, res, next) => {
   UserController.checkSession(req as CustomRequest, res, next);
 });
 
-const routes = [
-  { method: 'get', path: '/', handler: UserController.getUserData },
-  { method: 'post', path: '/section', handler: UserController.createSection },
-  { method: 'delete', path: '/section', handler: UserController.deleteSection },
-  { method: 'post', path: '/card', handler: UserController.createCard },
-  { method: 'delete', path: '/card', handler: UserController.deleteCard },
-  { method: 'patch', path: '/account', handler: UserController.updateAccount },
-  { method: 'get', path: '/account', handler: UserController.getUserInfo }
-];
-
-routes.forEach(route => {
-  userRouter[route.method](route.path, route.handler);
-});
+userRouter.get('/', (req, res) => UserController.getUserData(req as CustomRequest, res))
+userRouter.post('/section', (req, res) => UserController.createSection(req as CustomRequest, res))
+userRouter.delete('/section', (req, res) => UserController.deleteSection(req as CustomRequest, res))
+userRouter.post('/card', (req, res) => UserController.createCard(req as CustomRequest, res))
+userRouter.delete('/card', (req, res) => UserController.deleteCard(req as CustomRequest, res))
+userRouter.patch('/account', (req, res) => UserController.updateAccount(req as CustomRequest, res))
+userRouter.get('/account', (req, res) => UserController.getUserInfo(req as CustomRequest, res))

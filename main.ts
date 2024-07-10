@@ -3,8 +3,8 @@ import { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
-import { authRouter } from './routes/auth.routes';
-import { userRouter } from './routes/user.routes';
+import { authRouter } from './routes/auth.routes.js';
+import { userRouter } from './routes/user.routes.js';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
@@ -14,7 +14,7 @@ const PORT = process.env.PORT ?? 3001;
 const app = express();
 
 const corsOptions = {
-  origin: '*', //Momentaneamente aceptara requests de cualquier lugar
+  origin: '*', //Momentaneamente aceptara requests de cualquier lugar, cambiar en produccion
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type'],
 };

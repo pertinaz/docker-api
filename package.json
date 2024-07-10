@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsx main.ts",
+    "prod": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

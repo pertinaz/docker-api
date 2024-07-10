@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import { KanbanDB } from '../model/db-kanban';
+import { KanbanDB } from '../model/db-kanban.js';
 import { validate } from 'uuid';
 dotenv.config()
 
@@ -15,7 +15,6 @@ const SECRET_KEY = process.env.SECRET_KEY ?? '123456'
 export class UserController {
 
     static async checkSession (req: CustomRequest, res: Response, next: NextFunction) {
-
         const token = req.cookies.access_token;
     
         req.session = { user: null };
@@ -23,6 +22,7 @@ export class UserController {
         if (!token) {
             return res.status(403).send('Forbidden request: You are not authorized')
         }
+
 
         try {
             const data = jwt.verify(token, SECRET_KEY);
@@ -142,5 +142,17 @@ export class UserController {
         if ('message' in userUpdated) return res.status(userUpdated.code).send(userUpdated.message)
         res.send(userUpdated)
     }
+
+
+    static async getUserInfo  (req: CustomRequest, res: Response) {
+
+        const { user_id } = req.session.user
+        
+        const userData = await KanbanDB.getUserInfo(user_id)
+        if ('message' in userData) return res.status(userData.code).send(userData.message)
+    
+        res.send(userData)
+    }
+
 
 }
