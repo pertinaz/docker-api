@@ -30,8 +30,3 @@ o utilizar el script 'npm run prod' para compilarlo y luego usar node
 npm run prod
 node main.js
 ```
-
-
-## Usar la API Remotamente
-
-Tambien puedes acceder a la API mediante el siguiente link
