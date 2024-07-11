@@ -16,7 +16,7 @@ export class KanbanDB {
                 host: process.env.DB_HOST || 'localhost',
                 password: process.env.DB_PASS || '123456',
                 database: process.env.DB_NAME || 'kaban',
-                port: process.env.DB_PORT || 5432
+                port: process.env.DB_PORT || '5432'
             });
         }
         return KanbanDB.client;
