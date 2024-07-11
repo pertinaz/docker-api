@@ -30,6 +30,7 @@ export class KanbanDB {
             return { username: data.rows[0][0] }; 
 
         } catch(e) { 
+            console.log(e)
             const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500 };
             return error
           }
@@ -46,6 +47,7 @@ export class KanbanDB {
               return { message: 'Incorrect user name or password', code: 401 }; 
           }
         } catch(e) { 
+          console.log(e)
           const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
           return error
         }
@@ -60,6 +62,7 @@ export class KanbanDB {
           return { id: data.rows[0][0] };
 
       } catch(e) { 
+          console.log(e)
           const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
           return error
         }
@@ -78,7 +81,8 @@ export class KanbanDB {
 
             if (sections_id.rows.length === 0) return { message: 'No se encontró seccion para la id especificada', code:404} as ErrorDB
             return userdata
-        } catch(e) { 
+        } catch(e) {
+          console.log(e)
           const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
           return error
         }
@@ -93,6 +97,7 @@ export class KanbanDB {
           return { id: data.rows[0][0] };
 
       } catch(e) { 
+          console.log(e)
           const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
           return error
         }
@@ -106,6 +111,7 @@ export class KanbanDB {
           return { id: data.rows[0][0] };
 
       } catch(e) { 
+          console.log(e)
           const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
           return error
         }
@@ -116,6 +122,7 @@ export class KanbanDB {
         const data = await client.query(`INSERT INTO section (user_id, title, position) VALUES ($1, $2, $3) RETURNING *`, [user_id, title, position]);
         return { id: data.rows[0][0], title: data.rows[0][2], user_id: data.rows[0][1], cards: [], position: data.rows[0][3]};
       } catch(e) { 
+        console.log(e)
         const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
         return error
       }
@@ -127,6 +134,7 @@ export class KanbanDB {
         const data = await client.query(`INSERT INTO cards (title, content, section_id, position) VALUES ($1, $2, $3, $4) RETURNING *`, [title, content, section_id, position]);
         return { id: data.rows[0][0], title: data.rows[0][1], content: data.rows[0][2], section_id: data.rows[0][3], position: data.rows[0][4] };
       } catch (e) {
+        console.log(e)
         const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
         return error;
       }
@@ -138,6 +146,7 @@ export class KanbanDB {
             const data = await client.query(`INSERT INTO users (username, passwd, email) VALUES ($1, $2, $3) RETURNING *`, [username, hashedPasswd, email]);
             return { id: data.rows[0][0], username: data.rows[0][1], passwd: data.rows[0][2], email: data.rows[0][3] };
         } catch (e) {
+          console.log(e)
           const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
           return error;
         }
@@ -151,6 +160,7 @@ export class KanbanDB {
         const cards = deletedCards.rows.map(card => ({ id: card[0], title: card[1], content: card[2], section_id: card[3], position: card[4] }));
         return { id: data.rows[0][0], title: data.rows[0][1], user_id: data.rows[0][2], cards: cards, position: data.rows[0][4]};
       } catch (e) {
+        console.log(e)
         const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
         return error;
       }
@@ -161,7 +171,7 @@ export class KanbanDB {
         const data = await client.query(`DELETE FROM cards WHERE id = $1 RETURNING *`, [card_id]);
         if (data.rows.length === 0) return { message: 'No se encontró la carta', code:404} as ErrorDB
         return { id: data.rows[0][0], title: data.rows[0][1], content: data.rows[0][2], section_id: data.rows[0][3], position: data.rows[0][4] };
-      } catch(e) { console.error(e); throw e; }
+      } catch(e) { console.log(e);console.error(e); throw e; }
     }
 
     static async updateUser(user_id: string, { username, email, password }: { username?: string, email?: string, password?: string }): Promise<User | ErrorDB> {
@@ -190,6 +200,7 @@ export class KanbanDB {
         if (data.rows.length === 0) return { message: 'No se encontró el usuario especificado', code:404} as ErrorDB
         return { id: data.rows[0][0], username: data.rows[0][1], passwd: data.rows[0][2], email: data.rows[0][3] };
       } catch (e) {
+        console.log(e)
         const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
         return error;
       }
@@ -222,6 +233,7 @@ export class KanbanDB {
         if (data.rows.length === 0) return { message: 'No se encontró la seccion especificada', code:404} as ErrorDB
         return { id: data.rows[0][0], title: data.rows[0][1], user_id: data.rows[0][2], position: data.rows[0][4] };
       } catch (e) {
+        console.log(e)
         const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
         return error;
       }
@@ -258,6 +270,7 @@ export class KanbanDB {
         if (data.rows.length === 0) return { message: 'No se encontró el usuario especificado', code:404} as ErrorDB
         return { id: data.rows[0][0], title: data.rows[0][1], content: data.rows[0][2], section_id: data.rows[0][3], position: data.rows[0][4]};
       } catch (e) {
+        console.log(e)
         const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
         return error;
       }
@@ -271,6 +284,7 @@ export class KanbanDB {
           return { username: data.rows[0][0], email: data.rows[0][1] };
 
       } catch(e) { 
+          console.log(e)
           const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
           return error
         }
