@@ -9,14 +9,14 @@ export class KanbanDB {
     private static client: Client | null = null;
 
     private static async getClient(): Promise<Client> {
-      
+        const port = process.env.DB_PORT as unknown as number
         if (!KanbanDB.client) {
             KanbanDB.client = await connect({
                 user: process.env.DB_USER || 'postgres',
                 host: process.env.DB_HOST || 'localhost',
                 password: process.env.DB_PASS || '123456',
                 database: process.env.DB_NAME || 'kaban',
-                port: process.env.DB_PORT as unknown as number || '5432'
+                port: port
             });
         }
         return KanbanDB.client;
