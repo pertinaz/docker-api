@@ -14,7 +14,6 @@ const PORT = process.env.PORT ?? 3000;
 const app = express();
 
 const corsOptions = {
-  'Access-Control-Allow-Origin': 'http://localhost:3000',
   origin: 'http://localhost:3000', //Momentaneamente aceptara requests de cualquier lugar, cambiar en produccion
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type'],
