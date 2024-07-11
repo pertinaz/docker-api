@@ -90,7 +90,12 @@
         <h3>Recibe:</h3>
         <p>Nada</p>
         <h3>Devuelve:</h3>
-        <p>Datos de los usuarios: <code>{ sections: [{ "title": "section title", "cards": [ArrayCards] }] }</code></p>
+        <p>Datos de los usuarios: <code>{ sections: [
+                                            { "title": string, 
+                                              "cards": [ArrayCards], 
+                                              "position": number 
+                                            }    ]
+                                        }</code></p>
         <h3>Posibles errores:</h3>
         <ul>
             <li class="error">500 - Internal server error</li>
@@ -101,7 +106,7 @@
     <div class="endpoint">
         <h2>POST /api/user/section</h2>
         <h3>Recibe:</h3>
-        <p>Body: JSON con <code>title</code> (string)</p>
+        <p>Body: JSON con <code>title</code> (string), <code>position</code> (number)</p>
         <h3>Devuelve:</h3>
         <p>Objeto sección recién creado: <code>{ id: idsection, user_id: idusuario, title: título }</code></p>
         <h3>Posibles errores:</h3>
@@ -126,9 +131,22 @@
     </div>
 
     <div class="endpoint">
+        <h2>PATCH /api/user/section</h2>
+        <h3>Recibe:</h3>
+        <p>Body: JSON con los datos a actualizar (<code>title</code>, <code>position</code></p>
+        <h3>Devuelve:</h3>
+        <p>Objeto de la section con los datos actualizados</p>
+        <h3>Posibles errores:</h3>
+        <ul>
+            <li class="error">404 - No se encontro la carta especificado</li>
+            <li class="error">500 - Error interno del servidor</li>
+        </ul>
+    </div>
+
+    <div class="endpoint">
         <h2>POST /api/user/card</h2>
         <h3>Recibe:</h3>
-        <p>Body: JSON con <code>title</code> (string), <code>content</code> (string), <code>section_id</code> (string)</p>
+        <p>Body: JSON con <code>title</code> (string), <code>content</code> (string), <code>section_id</code> (string), <code>position</code> (number)</p>
         <h3>Devuelve:</h3>
         <p>Objeto carta recién creado: <code>{ id: idcarta, section_id: idsection, title: título, content: contenido }</code></p>
         <h3>Posibles errores:</h3>
@@ -152,6 +170,19 @@
             <li class="error">403 - Prohibido, no tiene acceso para borrar esta carta</li>
             <li class="error">500 - Error interno del servidor</li>
             <li class="error">404 - No se encontró la carta especificada</li>
+        </ul>
+    </div>
+
+    <div class="endpoint">
+        <h2>PATCH /api/user/card</h2>
+        <h3>Recibe:</h3>
+        <p>Body: JSON con los datos a actualizar (<code>title</code>, <code>content</code>, <code>section_id</code>), <code>position</code></p>
+        <h3>Devuelve:</h3>
+        <p>Objeto de la carta con los datos actualizados</p>
+        <h3>Posibles errores:</h3>
+        <ul>
+            <li class="error">404 - No se encontro la carta especificado</li>
+            <li class="error">500 - Error interno del servidor</li>
         </ul>
     </div>
 
