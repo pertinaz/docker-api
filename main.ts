@@ -16,7 +16,7 @@ const app = express();
 const corsOptions = {
   origin: '*', //Momentaneamente aceptara requests de cualquier lugar, cambiar en produccion
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-  allowedHeaders: ['Content-Type'],
+  allowedHeaders: ['Content-Type', 'Acces-Control-Allow-Origin': *],
 };
 const publicPath = path.resolve('public');
 
