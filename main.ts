@@ -20,7 +20,7 @@ const corsOptions = {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
-      }, //Momentaneamente aceptara requests de cualquier lugar, cambiar en produccion
+      }}, 
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Acces-Control-Allow-Origin': *],
   credentials: true
