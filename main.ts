@@ -3,8 +3,8 @@ import { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
-import { authRouter } from './routes/auth.routes.js';
-import { userRouter } from './routes/user.routes.js';
+import { authRouter } from './src/routes/auth.routes.js';
+import { userRouter } from './src/routes/user.routes.js';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
