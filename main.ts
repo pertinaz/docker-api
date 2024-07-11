@@ -12,9 +12,15 @@ dotenv.config();
 const PORT = process.env.PORT ?? 3001;
 
 const app = express();
-
+const whitelist = ["http://localhost:3000"];
 const corsOptions = {
-  origin: '*', //Momentaneamente aceptara requests de cualquier lugar, cambiar en produccion
+  origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (whitelist.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }, //Momentaneamente aceptara requests de cualquier lugar, cambiar en produccion
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Acces-Control-Allow-Origin': *],
   credentials: true
