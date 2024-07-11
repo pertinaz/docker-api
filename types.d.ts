@@ -21,6 +21,7 @@ interface Card {
   title: string
   content: string
   section_id: string
+  position: number
 }
 
 interface Section {
@@ -28,9 +29,10 @@ interface Section {
   title: string
   user_id: string
   cards: Card[]
+  position: number
 }
 type SectionID = Pick<Section, 'id'>
-type SectionInfo =
+type SectionInfo = Omit<Section, 'cards'>
 
 interface UserData {
   sections: Section[]
