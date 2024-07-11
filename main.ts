@@ -22,7 +22,7 @@ const corsOptions = {
         callback(new Error("Not allowed by CORS"));
       }}, 
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Acces-Control-Allow-Origin': *],
+  allowedHeaders: ['Content-Type', 'Acces-Control-Allow-Origin': *, 'Authorization'],
   credentials: true
 };
 const publicPath = path.resolve('public');
