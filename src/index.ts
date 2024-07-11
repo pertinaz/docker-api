@@ -17,6 +17,7 @@ const corsOptions = {
   origin: '*', //Momentaneamente aceptara requests de cualquier lugar, cambiar en produccion
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type'],
+  credentials: 'include'
 };
 const publicPath = path.resolve('public');
 
