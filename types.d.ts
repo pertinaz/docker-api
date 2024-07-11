@@ -30,6 +30,7 @@ interface Section {
   cards: Card[]
 }
 type SectionID = Pick<Section, 'id'>
+type SectionInfo =
 
 interface UserData {
   sections: Section[]

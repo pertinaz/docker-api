@@ -154,5 +154,27 @@ export class UserController {
         res.send(userData)
     }
 
+    static async updateSection (req: CustomRequest, res: Response) {
+        const { user_id } = req.session.user;
+        const { title, content, section } = req.body;
+
+        const sectionUpdated = await KanbanDB.updateSection(user_id, {title, content, section, position})
+
+        if ('message' in sectionUpdated) return res.status(sectionUpdated.code).send(sectionUpdated.message)
+        res.send(sectionUpdated)
+    }
+
+    static async updateCard (req: CustomRequest, res: Response) {
+        const { user_id } = req.session.user;
+        const { username, email, password } = req.body;
+
+        const cardUpdated = await KanbanDB.updateCard(section_id, {title, position})
+
+        if ('message' in cardUpdated) return res.status(cardUpdated.code).send(cardUpdated.message)
+        res.send(cardUpdated)
+    }
+
+
+
 
 }

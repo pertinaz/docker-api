@@ -195,6 +195,64 @@ export class KanbanDB {
       }
     }
 
+    static async updateSection(section_id: string, { title, user_id }: { title?: string, user_id?: string}): Promise<SectionInfo | ErrorDB> {
+      try {
+        const client = await KanbanDB.getClient();
+        const updates: string[] = [];
+        const values: any[] = [];
+
+        if (title) {
+          updates.push('title = $1');
+          values.push(title);
+        }
+        if (user_id) {
+          updates.push('user_id = $2');
+          values.push(user_id);
+        }
+
+        const query = `UPDATE section SET ${updates.join(', ')} WHERE id = $${values.length + 1}`;
+        await client.query(query, [...values, section_id]);
+
+        const data = await client.query('SELECT * FROM section WHERE id = $1', [section_id]);
+        if (data.rows.length === 0) return { message: 'No se encontró la seccion especificada', code:404} as ErrorDB
+        return { id: data.rows[0][0], title: data.rows[0][1], user_id: data.rows[0][2] };
+      } catch (e) {
+        const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
+        return error;
+      }
+    }
+
+    static async updateUser(user_id: string, { username, email, password }: { username?: string, email?: string, password?: string }): Promise<User | ErrorDB> {
+      try {
+        const client = await KanbanDB.getClient();
+        const updates: string[] = [];
+        const values: any[] = [];
+
+        if (username) {
+          updates.push('username = $1');
+          values.push(username);
+        }
+        if (email) {
+          updates.push('email = $2');
+          values.push(email);
+        }
+        if (password) {
+          updates.push('passwd = $3');
+          values.push(await bcrypt.hash(password, 7));
+        }
+
+        const query = `UPDATE users SET ${updates.join(', ')} WHERE id = $${values.length + 1}`;
+        await client.query(query, [...values, user_id]);
+
+        const data = await client.query('SELECT * FROM users WHERE id = $1', [user_id]);
+        if (data.rows.length === 0) return { message: 'No se encontró el usuario especificado', code:404} as ErrorDB
+        return { id: data.rows[0][0], username: data.rows[0][1], passwd: data.rows[0][2], email: data.rows[0][3] };
+      } catch (e) {
+        const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
+        return error;
+      }
+    }
+
     static async getUserInfo(user_id: string) : Promise<UserInfo | ErrorDB>{
       try {
           const client = await KanbanDB.getClient();
