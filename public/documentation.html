@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación de la API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #8f8d91;
+            margin-bottom: 40px;
+        }
+        .endpoint {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            padding: 20px;
+            width: 80%;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        h2 {
+            color: #03dac6;
+            text-align: center;
+        }
+        h3 {
+            color: #9a989c;
+        }
+        p, ul {
+            text-align: left;
+        }
+        .error {
+            color: #cf6679;
+        }
+    </style>
+</head>
+<body>
+    <h1>Documentación de la API</h1>
+
+    <div class="endpoint">
+        <h2>POST /api/auth/login</h2>
+        <h3>Recibe:</h3>
+        <p>Body: JSON con <code>username</code> (string) y <code>passwd</code> (string)</p>
+        <h3>Devuelve:</h3>
+        <p>Nada, setea una cookie con JWT</p>
+        <h3>Posibles errores:</h3>
+        <ul>
+            <li class="error">400 - Login inválido</li>
+            <li class="error">401 - Nombre de usuario o contraseña incorrectos</li>
+            <li class="error">500 - Internal server error</li>
+        </ul>
+    </div>
+
+    <div class="endpoint">
+        <h2>POST /api/auth/register</h2>
+        <h3>Recibe:</h3>
+        <p>Body: JSON con <code>username</code> (string), <code>passwd</code> (string), <code>email</code> (string)</p>
+        <h3>Devuelve:</h3>
+        <p>Usuario creado: <code>{ id, username, email, passwd }</code></p>
+        <h3>Posibles errores:</h3>
+        <ul>
+            <li class="error">400 - Registro inválido</li>
+            <li class="error">401 - Nombre de usuario ya existe</li>
+            <li class="error">500 - Internal server error</li>
+        </ul>
+    </div>
+
+    <div class="endpoint">
+        <h2>POST /api/auth/logout</h2>
+        <h3>Recibe:</h3>
+        <p>Nada</p>
+        <h3>Devuelve:</h3>
+        <p>Nada, limpia la token</p>
+        <h3>Posibles errores:</h3>
+        <ul>
+            <li>Ninguno</li>
+        </ul>
+    </div>
+
+    <div class="endpoint">
+        <h2>GET /api/user</h2>
+        <h3>Recibe:</h3>
+        <p>Nada</p>
+        <h3>Devuelve:</h3>
+        <p>Datos de los usuarios: <code>{ sections: [{ "title": "section title", "cards": [ArrayCards] }] }</code></p>
+        <h3>Posibles errores:</h3>
+        <ul>
+            <li class="error">500 - Internal server error</li>
+            <li class="error">404 - No se encontró id para la sección especificada</li>
+        </ul>
+    </div>
+
+    <div class="endpoint">
+        <h2>POST /api/user/section</h2>
+        <h3>Recibe:</h3>
+        <p>Body: JSON con <code>title</code> (string)</p>
+        <h3>Devuelve:</h3>
+        <p>Objeto sección recién creado: <code>{ id: idsection, user_id: idusuario, title: título }</code></p>
+        <h3>Posibles errores:</h3>
+        <ul>
+            <li class="error">400 - Missing title field</li>
+            <li class="error">500 - Internal server error</li>
+        </ul>
+    </div>
+
+    <div class="endpoint">
+        <h2>DELETE /api/user/section</h2>
+        <h3>Recibe:</h3>
+        <p>Body: JSON con <code>section_id</code> (string)</p>
+        <h3>Devuelve:</h3>
+        <p>Objeto sección recién borrado</p>
+        <h3>Posibles errores:</h3>
+        <ul>
+            <li class="error">404 - No se encontró sección especificada</li>
+            <li class="error">403 - Prohibido, no tiene acceso para borrar esta sección</li>
+            <li class="error">500 - Error interno del servidor</li>
+        </ul>
+    </div>
+
+    <div class="endpoint">
+        <h2>POST /api/user/card</h2>
+        <h3>Recibe:</h3>
+        <p>Body: JSON con <code>title</code> (string), <code>content</code> (string), <code>section_id</code> (string)</p>
+        <h3>Devuelve:</h3>
+        <p>Objeto carta recién creado: <code>{ id: idcarta, section_id: idsection, title: título, content: contenido }</code></p>
+        <h3>Posibles errores:</h3>
+        <ul>
+            <li class="error">400 - Missing fields</li>
+            <li class="error">500 - Internal server error</li>
+            <li class="error">401 - UUID de sección incorrecto</li>
+            <li class="error">403 - Prohibido, esta sección no pertenece al usuario</li>
+        </ul>
+    </div>
+
+    <div class="endpoint">
+        <h2>DELETE /api/user/card</h2>
+        <h3>Recibe:</h3>
+        <p>Body: JSON con <code>card_id</code> (string)</p>
+        <h3>Devuelve:</h3>
+        <p>Objeto carta recién borrado</p>
+        <h3>Posibles errores:</h3>
+        <ul>
+            <li class="error">400 - Missing card id field</li>
+            <li class="error">403 - Prohibido, no tiene acceso para borrar esta carta</li>
+            <li class="error">500 - Error interno del servidor</li>
+            <li class="error">404 - No se encontró la carta especificada</li>
+        </ul>
+    </div>
+
+    <div class="endpoint">
+        <h2>PATCH /api/user/account</h2>
+        <h3>Recibe:</h3>
+        <p>Body: JSON con los datos a actualizar (<code>username</code>, <code>email</code>, <code>password</code>)</p>
+        <h3>Devuelve:</h3>
+        <p>Objeto del usuario con los datos actualizados</p>
+        <h3>Posibles errores:</h3>
+        <ul>
+            <li class="error">404 - No se encontro el usuario especificado</li>
+            <li class="error">500 - Error interno del servidor</li>
+        </ul>
+    </div>
+
+    <div class="endpoint">
+        <h2>GET /api/user/account</h2>
+        <h3>Recibe:</h3>
+        <p>Nada</p>
+        <h3>Devuelve:</h3>
+        <p>Objeto del usuario recién creado con solo <code>username</code> y <code>email</code></p>
+        <h3>Posibles errores:</h3>
+        <ul>
+            <li class="error">404 - No se encontro el usuario especificado</li>
+            <li class="error">500 - Error interno del servidor</li>
+        </ul>
+    </div>
+
+</body>
+</html>
