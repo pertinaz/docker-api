@@ -169,8 +169,24 @@ export class UserController {
         const { title, content, card_id, section_id, position } = req.body;
 
         // verificar que el usuario sea el dueño de la sección que quiera cambiar
+        const section_user_id = await KanbanDB.getUserID(section_id)
+        if ('message' in section_user_id) return res.status(section_user_id.code).send(section_user_id.message)
+
+        if (section_user_id.id != user_id) 
+            return res.status(403).send('Forbidden request: The section doesnt belong to this user')
         // verificar que la seccion de la carta sea del usuario
         
+        const card_section_id = await KanbanDB.getSectionByCardID(card_id)
+        if ('message' in card_section_id) return res.status(card_section_id.code).send(card_section_id.message)
+
+        const section_user_id2 = await KanbanDB.getUserID(card_section_id.id)
+
+        if ('message' in section_user_id2) return res.status(section_user_id2.code).send(section_user_id2.message)
+
+        if (section_user_id2.id != user_id) 
+            return res.status(403).send('Forbidden request: The card section doesnt belong to this user')
+
+            
         const cardUpdated = await KanbanDB.updateCard(card_id, {title, content, section_id, position})
 
         if ('message' in cardUpdated) return res.status(cardUpdated.code).send(cardUpdated.message)
