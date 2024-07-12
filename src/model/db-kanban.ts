@@ -143,7 +143,7 @@ export class KanbanDB {
     static async addUser(username: string, hashedPasswd: string, email: string): Promise<User | ErrorDB>{
         try {
             const client = await KanbanDB.getClient();
-            const data = await client.query(`INSERT INTO users (username, passwd, email) VALUES ($1, $2, $3) RETURNING *`, [username, hashedPasswd, email]);
+            const data = await client.query(`INSERT INTO users (username, password, email) VALUES ($1, $2, $3) RETURNING *`, [username, hashedPasswd, email]);
             return { id: data.rows[0][0], username: data.rows[0][1], passwd: data.rows[0][2], email: data.rows[0][3] };
         } catch (e) {
           console.log(e)
