@@ -32,7 +32,7 @@ export class AuthController {
 
         if ('message' in pass) { return res.status(pass.code).send(pass.message)}
 
-        if (!await bcrypt.compare(user.passwd, pass.passwd)) { return res.status(401).send('Incorrect username or password')}
+        if (!await bcrypt.compare(user.password, pass.password)) { return res.status(401).send('Incorrect username or password')}
     
         const user_id = await KanbanDB.getID(username.username)
 
@@ -62,7 +62,7 @@ export class AuthController {
         if ('message' in username) { return res.status(username.code).send(username.message)}
         if (username.username !== '') { return res.status(401).send('Username already exists')}
     
-        const hashedPasswd = await bcrypt.hash(user.passwd, 7)
+        const hashedPasswd = await bcrypt.hash(user.password, 7)
         const created_user = await KanbanDB.addUser(user.username, hashedPasswd, user.email)
 
         if ('message' in created_user) { return res.status(created_user.code).send(created_user.message)}
