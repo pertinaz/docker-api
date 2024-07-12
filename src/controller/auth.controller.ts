@@ -44,7 +44,7 @@ export class AuthController {
                                     expiresIn: '5h'
                                 })
     
-        res.setHeader('Authorization', `Bearer ${token}`).send( { user_id: user_id, token } )
+        res.send( { user_id: user_id, token } )
     }
 
     static async register (req: Request, res: Response) {
