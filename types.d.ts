@@ -1,7 +1,7 @@
 interface User {
   id?: string
   username: string
-  passwd: string
+  password: string
   email: string
 }
 
