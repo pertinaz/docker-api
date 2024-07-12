@@ -44,7 +44,7 @@ export class AuthController {
                                     expiresIn: '5h'
                                 })
     
-        res.cookie('access_token', token, { maxAge: 3600000, httpOnly : true, sameSite : 'strict', secure: true, path: '/' }).send( { user_id: user_id, token } )
+        res.setHeader('Authorization', `Bearer ${token}`).send( { user_id: user_id, token } )
     }
 
     static async register (req: Request, res: Response) {
