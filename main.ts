@@ -12,7 +12,7 @@ dotenv.config();
 const PORT = process.env.PORT ?? 3001;
 
 const app = express();
-const whitelist = ["http://localhost:3000"];
+const whitelist = ["http://localhost:3000", "https://kanban-kwc8jf5lg-mateomors-projects.vercel.app"];
 const corsOptions = {
   origin: (origin, callback) => {
       if (!origin) return callback(null, true);
