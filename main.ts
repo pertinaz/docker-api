@@ -27,11 +27,11 @@ const corsOptions = {
 };
 const publicPath = path.resolve('public');
 
+app.use(cors(corsOptions));
 app.disable('x-powered-by');
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(publicPath));
-app.use(cors(corsOptions));
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.get('/api/documentation', (_req, res) => {
