@@ -144,7 +144,7 @@ export class KanbanDB {
         try {
             const client = await KanbanDB.getClient();
             const data = await client.query(`INSERT INTO users (username, password, email) VALUES ($1, $2, $3) RETURNING *`, [username, hashedPasswd, email]);
-            return { id: data.rows[0][0], username: data.rows[0][1], password: data.rows[0][2], email: data.rows[0][3] };
+            return { id: data.rows[0][0], username: data.rows[0][1], email: data.rows[0][2], password: data.rows[0][3] };
         } catch (e) {
           console.log(e)
           const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
