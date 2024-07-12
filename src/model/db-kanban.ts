@@ -40,9 +40,9 @@ export class KanbanDB {
         try {
             const client = await KanbanDB.getClient();
 
-            const data = await client.query(`SELECT passwd FROM users WHERE username = $1`, [username]);
+            const data = await client.query(`SELECT password FROM users WHERE username = $1`, [username]);
             if (data.rows.length > 0) {
-              return { passwd: data.rows[0][0] }; 
+              return { password: data.rows[0][0] }; 
           } else {
               return { message: 'Incorrect user name or password', code: 401 }; 
           }
@@ -189,7 +189,7 @@ export class KanbanDB {
           values.push(email);
         }
         if (password) {
-          updates.push('passwd = $3');
+          updates.push('password = $3');
           values.push(await bcrypt.hash(password, 7));
         }
 
