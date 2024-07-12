@@ -5,7 +5,7 @@ const registerSchema = z.object({
         invalid_type_error: 'Username must be a string',
         required_error: 'Username field is required'
     }).max(20),
-    passwd: z.string({
+    password: z.string({
         invalid_type_error: 'Password must be a string',
         required_error: 'Password field is required'
     }).max(255),
@@ -22,7 +22,7 @@ const loginSchema = z.object({
         invalid_type_error: 'Username must be a string',
         required_error: 'Username field is required'
     }).max(20),
-    passwd: z.string({
+    password: z.string({
         invalid_type_error: 'Password must be a string',
         required_error: 'Password field is required'
     }).max(255)
