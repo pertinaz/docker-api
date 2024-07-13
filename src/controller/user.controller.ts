@@ -51,6 +51,9 @@ export class UserController {
         if (!title) 
             return res.status(400).send("Bad request: missing title field")
 
+        if (!position) 
+            return res.status(400).send("Bad request: missing position field")
+
 
         const section = await KanbanDB.addSection(title, user_id, position)
 
@@ -86,7 +89,7 @@ export class UserController {
         const { title, content, section_id, position } = req.body
     
         
-        if (!title || !content || !section_id) 
+        if (!title || !content || !section_id || !position) 
             return res.status(400).send("Bad request: missing fields")
     
         if (!validate(section_id)) return res.status(401).send('Error: Incorrect UUID')
