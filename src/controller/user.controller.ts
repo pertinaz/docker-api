@@ -15,7 +15,7 @@ const SECRET_KEY = process.env.SECRET_KEY ?? '123456'
 export class UserController {
 
     static async checkSession (req: CustomRequest, res: Response, next: NextFunction) {
-        const authHeader = req.headers.authorization;
+        const authHeader = req.headers.Authorization;
     
         req.session = { user: null };
     
