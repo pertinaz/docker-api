@@ -43,7 +43,7 @@ export class AuthController {
                                 {
                                     expiresIn: '5h'
                                 })
-        res.setHeader('Authorization', `Bearer ${token}`);
+        res.setHeader('authorization', `Bearer ${token}`);
         res.send( { user_id: user_id, token } )
     }
 
