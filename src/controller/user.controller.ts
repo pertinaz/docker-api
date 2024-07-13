@@ -20,14 +20,14 @@ export class UserController {
         req.session = { user: null };
     
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return res.status(403).send('Forbidden request: You are not authorized');
+            return res.status(403).send('Forbidden request: You are not authorized not header');
         }
         const token = authHeader.split(' ')[1];
 
         try {
             const data = jwt.verify(token, SECRET_KEY);
             req.session = { user: data };
-        } catch (e) { return res.status(401).send('Forbidden request: You are not authorized')} 
+        } catch (e) { return res.status(401).send('Forbidden request: You are not authorized' + e)} 
     
         next()
     }
