@@ -26,7 +26,7 @@ export class UserController {
 
         try {
             const data = jwt.verify(token, SECRET_KEY);
-            req.session = { user: data };
+            req.session.user = data; // Asignar los datos del usuario al objeto session
         } catch (e) { return res.status(401).send('Forbidden request: You are not authorized' + e)} 
     
         next()
