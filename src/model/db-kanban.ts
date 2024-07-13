@@ -116,17 +116,25 @@ export class KanbanDB {
           return error
         }
     }
-    static async addSection(title: string, user_id: string, position: number): Promise<Section | ErrorDB> {
-      try {
-        const client = await KanbanDB.getClient();
-        const data = await client.query(`INSERT INTO section (user_id, title, position) VALUES ($1, $2, $3) RETURNING *`, [user_id, title, position]);
-        return { id: data.rows[0][0], title: data.rows[0][2], user_id: data.rows[0][1], cards: [], position: data.rows[0][3]};
-      } catch(e) { 
-        console.log(e)
-        const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code:500  };
-        return error
-      }
-    }
+   static async addSection(title: string, user_id: string, position: number): Promise<Section | ErrorDB> {
+  try {
+    const client = await KanbanDB.getClient();
+    const data = await client.query(`INSERT INTO section (user_id, title, position) VALUES ($1, $2, $3) RETURNING *`, [user_id, title, position]);
+    const section: Section = {
+      id: data.rows[0].id,
+      title: data.rows[0].title,
+      user_id: data.rows[0].user_id,
+      cards: [],
+      position: data.rows[0].position
+    };
+    return section;
+  } catch(e) {
+    console.log(e);
+    const error: ErrorDB = { message: 'Error en la base de datos: ' + (e as Error).message, code: 500 };
+    return error;
+  }
+}
+
 
     static async addCards(title: string, content: string, section_id: string, position: number): Promise<Card | ErrorDB> {
       try {
