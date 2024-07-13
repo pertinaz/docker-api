@@ -15,18 +15,18 @@ const SECRET_KEY = process.env.SECRET_KEY ?? '123456'
 export class UserController {
 
     static async checkSession (req: CustomRequest, res: Response, next: NextFunction) {
-        const token = req.cookies.access_token;
+        const authHeader = req.headers.authorization;
     
         req.session = { user: null };
     
-        if (!token) {
-            return res.status(403).send('Forbidden request: You are not authorized')
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(403).send('Forbidden request: You are not authorized');
         }
-
+        const token = authHeader.split(' ')[1];
 
         try {
             const data = jwt.verify(token, SECRET_KEY);
-            req.session.user = data;
+            req.session = { user: data };
         } catch (e) { return res.status(401).send('Forbidden request: You are not authorized')} 
     
         next()
