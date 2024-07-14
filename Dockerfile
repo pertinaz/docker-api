@@ -2,7 +2,7 @@
 FROM node:14
 
 # Establece el directorio de trabajo
-WORKDIR /main.ts
+WORKDIR /usr/src/main.ts
 
 # Copia los archivos de tu proyecto
 COPY package*.json ./
@@ -14,4 +14,4 @@ COPY . .
 EXPOSE 4000
 
 # Comando para iniciar la aplicación
-CMD ["node", "start"]
+CMD ["node", "build/index.js"]

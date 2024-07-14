@@ -9,4 +9,3 @@ services:
       - PORT=4000
     volumes:
       - .:/app
-      - .:/usr/src/app/node_modules
