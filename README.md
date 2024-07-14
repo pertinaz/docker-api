@@ -8,8 +8,8 @@ Para instalar localmente seguir estos pasos:
 
 1- Clonar repositorio
 ```bash
-git clone https://github.com/Gurottesque/Elite-Kanban-Typescript.git
-cd Elite-Kanban-Typescript
+git clone https://github.com/pertinaz/docker-api.git
+cd docker-api
 ```
 
 2- Instalar dependencias
